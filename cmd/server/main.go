@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"rest-elliot/internal/db"
 )
@@ -15,9 +14,12 @@ func Run() error {
 		fmt.Println("Failed to connect to db")
 		return err
 	}
-	if err := db.Ping(context.Background()); err != nil {
+
+	if err := db.MigrateDB(); err != nil {
+		fmt.Println("failed to migrate database")
 		return err
 	}
+
 	fmt.Println("Succesfully connected and pinged db")
 	return nil
 }
