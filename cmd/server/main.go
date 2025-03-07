@@ -1,10 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"rest-elliot/internal/comment"
 	"rest-elliot/internal/db"
+
+	"rest-elliot/internal/transport/http"
 )
 
 // This func will be responsible for instaniation anmd startup of our app
@@ -24,20 +25,10 @@ func Run() error {
 
 	commentService := comment.NewService(db)
 
-	commentService.PostComment(
-		context.Background(),
-		comment.Comment{
-			ID:     "a0d9ff7a-fd8a-4baf-b072-dc495ae534e1",
-			Slug:   "manuel-test",
-			Author: "Abbas",
-			Body:   "body",
-		},
-	)
-
-	fmt.Println(commentService.GetComment(
-		context.Background(),
-		"a0d9ff7a-fd8a-4baf-b072-dc495ae534e1",
-	))
+	httpHandler := http.NewHandler(commentService)
+	if err := httpHandler.Serve(); err != nil {
+		return err
+	}
 
 	fmt.Println("Succesfully connected and pinged db")
 	return nil
