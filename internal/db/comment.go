@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 	"rest-elliot/internal/comment"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 // Kind of a dto for receiving from db
@@ -43,7 +45,7 @@ func (d *Database) GetComment(ctx context.Context, uuid string) (comment.Comment
 }
 
 func (d *Database) PostComment(ctx context.Context, cmt comment.Comment) (comment.Comment, error) {
-	//cmt.ID = uuid.NewV4().String()
+	cmt.ID = uuid.NewV4().String()
 	postRow := CommentRow{
 		ID:     cmt.ID,
 		Slug:   sql.NullString{String: cmt.Slug, Valid: true},

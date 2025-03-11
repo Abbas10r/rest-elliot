@@ -8,7 +8,7 @@ import (
 	"rest-elliot/internal/transport/http"
 )
 
-// This func will be responsible for instaniation anmd startup of our app
+// This func will be responsible for instaniation and startup of our app
 func Run() error {
 	fmt.Println("Starting out app")
 
